@@ -164,6 +164,18 @@ var DiagramBuilder = A.Component.create({
             validator: isBoolean,
             value: true,
             writeOnce: 'initOnly'
+        },
+
+        showDeleteNodeIcon: {
+            validator: isBoolean,
+            value: true,
+            writeOnce: 'initOnly'
+        },
+
+        enableDeleteByKeyStroke: {
+            validator: isBoolean,
+            value: true,
+            writeOnce: 'initOnly'
         }
     },
 
@@ -796,14 +808,13 @@ var DiagramBuilder = A.Component.create({
                 return;
             }
 
+            var isDeleteByKeyStrokeEnable = (instance._getAttr('enableDeleteByKeyStroke') === true);
+
             if (event.isKey('esc')) {
                 instance._onEscKey(event);
+            } else if (isDeleteByKeyStrokeEnable && (event.isKey('backspace') || event.isKey('delete'))) {
+                instance._onDeleteKey(event);
             }
-            // Disable delete event
-            // TODO: this mus be reverted
-            // else if (event.isKey('backspace') || event.isKey('delete')) {
-            //     instance._onDeleteKey(event);
-            // }
         },
 
         /**
@@ -886,7 +897,28 @@ var DiagramBuilder = A.Component.create({
             }
         },
 
-        /**
+        _moveChildrenNodes: function (diagramNode, instance) {
+            if (diagramNode._getAttr('children')) {
+                var children = diagramNode._getAttr('children').map(
+                    function (mapItem) {
+                        return instance._getAttr('fields').filter(function (it) {
+                            return it._getAttr('name') === mapItem
+                        }).item(0)
+                    }
+                );
+
+                AArray.each(children, function (child) {
+                    child._setAttr("x", child._getAttr("x") + (diagramNode.getNodeCoordinates()[0] - diagramNode.get('x')));
+                    child._setAttr("y", child._getAttr("y") + (diagramNode.getNodeCoordinates()[1] - diagramNode.get('y')));
+
+                    child.alignTransitions();
+
+                    AArray.each(instance.getSourceNodes(child), function (sourceNode) {
+                        sourceNode.alignTransitions();
+                    });
+                });
+            }
+        }, /**
          * Triggers when the drag occurs.
          *
          * @method _onDrag
@@ -902,6 +934,8 @@ var DiagramBuilder = A.Component.create({
                 var diagramNode = A.Widget.getByNode(drag.get('dragNode'));
 
                 if (diagramNode) {
+                    this._moveChildrenNodes(diagramNode, instance);
+
                     diagramNode.alignTransitions();
 
                     AArray.each(instance.getSourceNodes(diagramNode), function(sourceNode) {
@@ -924,6 +958,7 @@ var DiagramBuilder = A.Component.create({
                             ]
                         );
                     }
+                    diagramNode.set('xy', diagramNode.getNodeCoordinates());
                 }
             }
         },
