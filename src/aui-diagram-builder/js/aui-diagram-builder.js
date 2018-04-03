@@ -978,6 +978,7 @@ var DiagramBuilder = A.Component.create({
             var diagramNode = A.Widget.getByNode(drag.get('dragNode'));
 
             if (diagramNode && instance.isFieldsDrag(drag)) {
+                this._moveChildrenNodes(diagramNode, instance);
                 diagramNode.set('xy', diagramNode.getNodeCoordinates());
 
                 if (instance.get('useARIA')) {
