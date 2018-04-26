@@ -1,10 +1,19 @@
 # AlloyUI - Continuum Security Fork
-This fork starts from version 3.1.0 and is born out of the necessity to create new features to apply Threat Modeling diagraming standards.
+This fork starts from version 3.1.0 and is born out of the necessity to create new features for alloy diagram-builder to apply Threat Modeling diagraming standards.
 
-## Version
-Current version 3.2.0
+## Version 
+Current diagram-builder version 3.2.0
 
-## Features - Diagram builder
+## Features
+Features list added to diagram-builder:
+
+- [Disable of deleting (by key pressing and by button)](#Disable-of-deleting-(by-key-pressing-and-by-button))
+- New Group Node
+- Custom Mouseover function for transitions
+- Disables deleting from key events
+- Option to set height and width of Task and Group nodes
+- Option to disable manual linking from Task to Task
+
 
 ### Disable of deleting (by key pressing and by button)
 Optional to hide the delete button which appeared when the user click in a node and also can disable
