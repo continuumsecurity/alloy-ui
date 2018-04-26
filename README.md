@@ -89,7 +89,7 @@ User can customize the height or width of a Task
 }
 ```
 
-### Option to disable manual linking from Task to Task
+###Option to disable manual linking from Task to Task
 User can optionally disable manual linking so users cannot link two tasks through the User Interface
 ```javascript
 {
