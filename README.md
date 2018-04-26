@@ -7,11 +7,11 @@ Current diagram-builder version 3.2.0
 ## Features
 Features list added to diagram-builder:
 
-- [Disable of deleting (by key pressing and by button)](#Disable-of-deleting-(by-key-pressing-and-by-button))
-- New Group Node
-- Custom Mouseover function for transitions
-- Disables deleting from key events
-- Option to set height and width of Task and Group nodes
+- [Disable of deleting (by key pressing and by button)](#disable-of-deleting-by-key-pressing-and-by-button)
+- [New Group Node](#new-group-node)
+- [Custom Mouseover function for transitions](#custom-mouseover-function-for-transitions)
+- [Disables deleting from key events](#disables-deleting-from-key-events)
+- [Option to set height and width of Task and Group nodes](#option-to-set-height-and-width-of-task-and-group-nodes)
 - [Option to disable manual linking from Task to Task](#option-to-disable-manual-linking-from-task-to-task)
 
 
