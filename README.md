@@ -4,7 +4,7 @@ This fork starts from version 3.1.0 and is born out of the necessity to create n
 ## Version
 Current version 3.2.0
 
-## Features
+## Features - Diagram builder
 
 ### Disable of deleting (by key pressing and by button)
 Optional to hide the delete button which appeared when the user click in a node and also can disable
