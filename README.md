@@ -12,7 +12,7 @@ Features list added to diagram-builder:
 - Custom Mouseover function for transitions
 - Disables deleting from key events
 - Option to set height and width of Task and Group nodes
-- Option to disable manual linking from Task to Task
+- [Option to disable manual linking from Task to Task](#Option-to-disable-manual-linking-from-Task-to-Task)
 
 
 ### Disable of deleting (by key pressing and by button)
