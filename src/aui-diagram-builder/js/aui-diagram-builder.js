@@ -154,12 +154,12 @@ var DiagramBuilder = A.Component.create({
         },
 
         /**
-        * Boolean indicating if use of the WAI-ARIA Roles and States should be enabled..
-        *
-        * @attribute useARIA
-        * @default true
-        * @type {Boolean}
-        */
+         * Boolean indicating if use of the WAI-ARIA Roles and States should be enabled..
+         *
+         * @attribute useARIA
+         * @default true
+         * @type {Boolean}
+         */
         useARIA: {
             validator: isBoolean,
             value: true,
@@ -897,28 +897,7 @@ var DiagramBuilder = A.Component.create({
             }
         },
 
-        _moveChildrenNodes: function (diagramNode, instance) {
-            if (diagramNode._getAttr('children')) {
-                var children = diagramNode._getAttr('children').map(
-                    function (mapItem) {
-                        return instance._getAttr('fields').filter(function (it) {
-                            return it._getAttr('name') === mapItem
-                        }).item(0)
-                    }
-                );
-
-                AArray.each(children, function (child) {
-                    child._setAttr("x", child._getAttr("x") + (diagramNode.getNodeCoordinates()[0] - diagramNode.get('x')));
-                    child._setAttr("y", child._getAttr("y") + (diagramNode.getNodeCoordinates()[1] - diagramNode.get('y')));
-
-                    child.alignTransitions();
-
-                    AArray.each(instance.getSourceNodes(child), function (sourceNode) {
-                        sourceNode.alignTransitions();
-                    });
-                });
-            }
-        }, /**
+        /**
          * Triggers when the drag occurs.
          *
          * @method _onDrag
@@ -928,13 +907,19 @@ var DiagramBuilder = A.Component.create({
         _onDrag: function(event) {
             var instance = this;
 
+
             var drag = event.target;
 
             if (instance.isFieldsDrag(drag)) {
                 var diagramNode = A.Widget.getByNode(drag.get('dragNode'));
 
                 if (diagramNode) {
-                    this._moveChildrenNodes(diagramNode, instance);
+
+                    if (diagramNode.get('type') === 'group') {
+                        this._moveChildrenGroupNodes(diagramNode, instance);
+                    } else if (diagramNode.get('type') === 'task') {
+                        this._updateTaskNodeBoundary(diagramNode, instance);
+                    }
 
                     diagramNode.alignTransitions();
 
@@ -978,12 +963,11 @@ var DiagramBuilder = A.Component.create({
             var diagramNode = A.Widget.getByNode(drag.get('dragNode'));
 
             if (diagramNode && instance.isFieldsDrag(drag)) {
-                this._moveChildrenNodes(diagramNode, instance);
+                this._moveChildrenGroupNodes(diagramNode, instance);
                 diagramNode.set('xy', diagramNode.getNodeCoordinates());
 
                 if (instance.get('useARIA')) {
-                    instance.aria.setAttributes(
-                    [
+                    instance.aria.setAttributes([
                         {
                             name: 'grabbed',
                             node: diagramNode.get('boundingBox'),
@@ -994,8 +978,7 @@ var DiagramBuilder = A.Component.create({
                             node: instance.get('canvas'),
                             value: 'none'
                         }
-                    ]
-                );
+                    ]);
                 }
             }
         },
@@ -1288,7 +1271,7 @@ var DiagramBuilder = A.Component.create({
                 boundingBox.addClass('popover');
 
                 boundingBox.delegate('click', A.bind(instance._onSuggestConnectorNodeClick, instance), '.' +
-                    CSS_PROPERTY_BUILDER_FIELD);
+                                                                                                       CSS_PROPERTY_BUILDER_FIELD);
             }
 
             return val;
@@ -1319,6 +1302,81 @@ var DiagramBuilder = A.Component.create({
                         boundingBox.attr('draggable', true);
                     }
                 );
+            }
+        },
+
+        /**
+         * Move all children of a group together when the group is moved
+         *
+         * @method _moveChildrenGroupNodes
+         * @param diagramNode
+         * @param instance
+         * @private
+         */
+        _moveChildrenGroupNodes: function (diagramNode, instance) {
+            if (diagramNode._getAttr('children')) {
+                var children = diagramNode._getAttr('children').map(
+                    function (mapItem) {
+                        return instance._getAttr('fields').filter(function (it) {
+                            return it._getAttr('name') === mapItem
+                        }).item(0)
+                    }
+                );
+
+                AArray.each(children, function (child) {
+                    child._setAttr("x", child._getAttr("x") + (diagramNode.getNodeCoordinates()[0] - diagramNode.get('x')));
+                    child._setAttr("y", child._getAttr("y") + (diagramNode.getNodeCoordinates()[1] - diagramNode.get('y')));
+
+                    child.alignTransitions();
+
+                    AArray.each(instance.getSourceNodes(child), function (sourceNode) {
+                        sourceNode.alignTransitions();
+                    });
+                });
+            }
+        },
+
+        /**
+         * Update the parent group node boundary to the current task children.
+         * A task couldn't move outside of parent group
+         *
+         * @method _updateTaskNodeBoundary
+         * @param diagramNode
+         * @param instance
+         * @private
+         */
+        _updateTaskNodeBoundary: function (diagramNode, instance) {
+            if (diagramNode.get('type') === 'task') {
+                instance.get('fields').each(function (node) {
+                    if (node.get('type') === 'group' && node.get('children')) {
+                        if (node.get('children').includes(diagramNode.get('name'))) {
+
+                            var leftGroupBoundary = node.get('x');
+                            var topGroupBoundary = node.get('y');
+                            var rightGroupBoundary = node.get('x') + node.get('width');
+                            var bottomGroupBoundary = node.get('y') + node.get('height');
+
+                            var leftNodeBoundary = diagramNode.get('x');
+                            var topNodeBoundary = diagramNode.get('y');
+                            var rightNodeBoundary = diagramNode.get('x') + diagramNode.get('width');
+                            var bottomNodeBoundary = diagramNode.get('y') + diagramNode.get('height');
+
+                            var drag = instance.fieldsDrag.dd;
+                            var offsetX = drag.con._regionCache['0'];
+                            var offsetY = drag.con._regionCache['1'];
+
+                            if (leftNodeBoundary < leftGroupBoundary) {
+                                drag.con._regionCache['left'] = offsetX + leftGroupBoundary;
+                            }else if (topNodeBoundary < topGroupBoundary) {
+                                drag.con._regionCache['top'] = offsetY + topGroupBoundary;
+                            }else if (rightNodeBoundary > rightGroupBoundary) {
+                                drag.con._regionCache['right']= offsetX +  rightGroupBoundary;
+                            }else if (bottomNodeBoundary > bottomGroupBoundary) {
+                                drag.con._regionCache['bottom']= offsetY + bottomGroupBoundary;
+                            }
+                        }
+                    }
+                });
             }
         }
     }

@@ -2,10 +2,10 @@
 This fork starts from version 3.1.0 and is born out of the necessity to create new features for alloy diagram-builder to apply Threat Modeling diagraming standards.
 
 ## Version 
-Current diagram-builder version 3.2.0
+Current diagram-builder version 3.3.0
 
 ## Features
-Features list added to diagram-builder:
+Features added to ContinuumSecurity diagram-builder Fork:
 
 - [Disable of deleting (by key pressing and by button)](#disable-of-deleting-by-key-pressing-and-by-button)
 - [New Group Node](#new-group-node)
@@ -13,7 +13,7 @@ Features list added to diagram-builder:
 - [Disables deleting from key events](#disables-deleting-from-key-events)
 - [Option to set height and width of Task and Group nodes](#option-to-set-height-and-width-of-task-and-group-nodes)
 - [Option to disable manual linking from Task to Task](#option-to-disable-manual-linking-from-task-to-task)
-
+- [Task nodes boundaries](#task-nodes-boundaries)
 
 ### Disable of deleting (by key pressing and by button)
 Optional to hide the delete button which appeared when the user click in a node and also can disable
@@ -99,6 +99,9 @@ User can optionally disable manual linking so users cannot link two tasks throug
     allowsLinking: false
 }
 ```
+
+### Task nodes boundaries 
+If task nodes have a parent group then task only can move inside group boundary
 
 # AlloyUI - Official Repository
 

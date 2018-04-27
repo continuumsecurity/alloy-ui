@@ -4,6 +4,10 @@
 
 ## @VERSION@
 
+## [3.3.0](https://github.com/continuumsecurity/alloy-ui/releases/tag/3.3.0)
+
+* Task nodes can't move outside of their parent group 
+
 ## [3.2.0](https://github.com/continuumsecurity/alloy-ui/releases/tag/3.2.0)
 
 * Group can have children attached that will be moved as the Group is moved (drag&drop)
