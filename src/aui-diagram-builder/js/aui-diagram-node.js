@@ -95,6 +95,18 @@ DiagramNode = A.Component.create({
     ATTRS: {
 
         /**
+         * Function in string that is called when right click in Node
+         *
+         * @attribute onRightClick
+         * @default '(function() {})'
+         * @type String
+         */
+        onRightClick: {
+            value: "(function() {})",
+            validator: A.Lang.isString
+        },
+
+        /**
          * Stores an instance of `A.PropertyBuilder`.
          *
          * @attribute builder

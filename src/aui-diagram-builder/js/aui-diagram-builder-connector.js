@@ -576,12 +576,12 @@ A.Connector = A.Base.create('line', A.Base, [], {
     _onShapeMouseMove: function(eventName, event) {
         var instance = this;
 
-        var attrs = {
+        var attrs = instance.get('builder').correctPosition({
             event: eventName,
             clientX: event.clientX,
             clientY: event.clientY,
             name: instance.getAttrs().name
-        };
+        });
 
         eval(instance.get('onMouseMove'))(attrs);
     },
