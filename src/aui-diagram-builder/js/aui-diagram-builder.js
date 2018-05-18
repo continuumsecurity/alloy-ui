@@ -265,6 +265,9 @@ var DiagramBuilder = A.Component.create({
                 'click', A.bind(instance._onNodeClick, instance), '.' + CSS_DIAGRAM_NODE);
 
             instance.dropContainer.delegate(
+                'contextmenu', A.bind(instance._onRightClick, instance), '.' + CSS_DIAGRAM_NODE);
+
+            instance.dropContainer.delegate(
                 'mousedown', A.bind(instance._onCloseButtonMouseDown, instance),
                 '.diagram-builder-controls button'
             );
@@ -1052,6 +1055,34 @@ var DiagramBuilder = A.Component.create({
             instance._onNodeEdit(event);
 
             event.stopPropagation();
+        },
+
+        _onRightClick: function(event) {
+            event.preventDefault();
+
+            var diagramNode = A.Widget.getByNode(event.currentTarget);
+
+            var attrs = this.correctPosition({
+                name: diagramNode.getAttrs().name,
+                clientX: event.clientX,
+                clientY: event.clientY,
+                type: diagramNode.getAttrs().type
+            });
+
+            eval(diagramNode.get('onRightClick'))(attrs);
+
+            event.stopPropagation();
+        },
+
+        correctPosition: function(attrs) {
+            // Return clientX and clientY relative to the drop Container instead of return global clientX clientY
+            // that are relative to the whole browser
+            var rect = this.dropContainer._node.getBoundingClientRect();
+
+            attrs.clientX -= rect.x;
+            attrs.clientY -= rect.y;
+
+            return attrs
         },
 
         /**
