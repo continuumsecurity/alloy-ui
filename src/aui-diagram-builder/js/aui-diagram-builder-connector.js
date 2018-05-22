@@ -116,7 +116,7 @@ A.PolygonUtil = {
     rotatePoint: function(angle, x, y) {
         return [
             (x * Math.cos(angle)) - (y * Math.sin(angle)), (x * Math.sin(angle)) + (y * Math.cos(angle))
-            ];
+        ];
     }
 };
 
@@ -477,6 +477,7 @@ A.Connector = A.Base.create('line', A.Base, [], {
         shape.on('click', A.bind(instance._onShapeClick, instance));
         shape.on('mouseenter', A.bind(instance._onShapeMouseEnter, instance));
         shape.on('mouseleave', A.bind(instance._onShapeMouseLeave, instance));
+        shape.on('contextmenu', A.bind(instance._onShapeRightClick, instance));
         shapeArrow.on('click', A.bind(instance._onShapeClick, instance));
         instance.get('nodeName').on('click', A.bind(instance._onShapeClick, instance));
     },
@@ -525,6 +526,15 @@ A.Connector = A.Base.create('line', A.Base, [], {
         }
 
         instance.set('selected', !selected);
+
+        var attrs = builder.correctPosition({
+            id: instance.getAttrs().id,
+            clientX: event.clientX,
+            clientY: event.clientY,
+            name: instance.getAttrs().name
+        });
+
+        eval(instance.get('onLeftClick'))(attrs);
 
         event.halt();
     },
@@ -575,15 +585,42 @@ A.Connector = A.Base.create('line', A.Base, [], {
 
     _onShapeMouseMove: function(eventName, event) {
         var instance = this;
+        var builder = instance.get('builder');
 
-        var attrs = instance.get('builder').correctPosition({
+        var attrs = builder.correctPosition({
             event: eventName,
+            id: instance.getAttrs().id,
             clientX: event.clientX,
             clientY: event.clientY,
             name: instance.getAttrs().name
         });
 
         eval(instance.get('onMouseMove'))(attrs);
+    },
+
+    /**
+     * Fires when mouse click right button.
+     *
+     * @method _onShapeRightClick
+     * @param event
+     * @protected
+     */
+    _onShapeRightClick: function(event) {
+        event.preventDefault();
+
+        var instance = this;
+        var builder = instance.get('builder');
+
+        var attrs = builder.correctPosition({
+            id: instance.getAttrs().id,
+            clientX: event.clientX,
+            clientY: event.clientY,
+            name: instance.getAttrs().name
+        });
+
+        eval(instance.get('onRightClick'))(attrs);
+
+        event.stopPropagation();
     },
 
     /**
@@ -756,6 +793,42 @@ A.Connector = A.Base.create('line', A.Base, [], {
         onMouseMove: {
             value: "(function() {})",
             validator: isString
+        },
+
+        /**
+         * Function in string that is called when right click is press over connector
+         *
+         * @attribute onRightClick
+         * @default '(function() {})'
+         * @type String
+         */
+        onRightClick: {
+            value: "(function() {})",
+            validator: isString
+        },
+
+        /**
+         * Function in string that is called when left click is press over connector
+         *
+         * @attribute onLeftClick
+         * @default '(function() {})'
+         * @type String
+         */
+        onLeftClick: {
+            value: "(function() {})",
+            validator: isString
+        },
+
+        /**
+         * The connector ID
+         *
+         * @attribute id
+         * @default 0
+         * @type Number
+         */
+        id: {
+            value: 0,
+            validator: isNumber
         },
 
         /**

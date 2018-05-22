@@ -1063,6 +1063,7 @@ var DiagramBuilder = A.Component.create({
             var diagramNode = A.Widget.getByNode(event.currentTarget);
 
             var attrs = this.correctPosition({
+                id: diagramNode.getAttrs().id,
                 name: diagramNode.getAttrs().name,
                 clientX: event.clientX,
                 clientY: event.clientY,
@@ -1079,8 +1080,8 @@ var DiagramBuilder = A.Component.create({
             // that are relative to the whole browser
             var rect = this.dropContainer._node.getBoundingClientRect();
 
-            attrs.clientX -= rect.x;
-            attrs.clientY -= rect.y;
+            attrs.clientX -= rect.left;
+            attrs.clientY -= rect.top;
 
             return attrs
         },
