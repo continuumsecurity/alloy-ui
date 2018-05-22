@@ -527,12 +527,13 @@ A.Connector = A.Base.create('line', A.Base, [], {
 
         instance.set('selected', !selected);
 
-        var attrs = {
+        var attrs = builder.correctPosition({
             id: instance.getAttrs().id,
             clientX: event.clientX,
             clientY: event.clientY,
             name: instance.getAttrs().name
-        };
+        });
+
         eval(instance.get('onLeftClick'))(attrs);
 
         event.halt();
@@ -584,8 +585,9 @@ A.Connector = A.Base.create('line', A.Base, [], {
 
     _onShapeMouseMove: function(eventName, event) {
         var instance = this;
+        var builder = instance.get('builder');
 
-        var attrs = instance.get('builder').correctPosition({
+        var attrs = builder.correctPosition({
             event: eventName,
             id: instance.getAttrs().id,
             clientX: event.clientX,
@@ -607,13 +609,14 @@ A.Connector = A.Base.create('line', A.Base, [], {
         event.preventDefault();
 
         var instance = this;
+        var builder = instance.get('builder');
 
-        var attrs = {
+        var attrs = builder.correctPosition({
             id: instance.getAttrs().id,
             clientX: event.clientX,
             clientY: event.clientY,
             name: instance.getAttrs().name
-        };
+        });
 
         eval(instance.get('onRightClick'))(attrs);
 
@@ -819,15 +822,14 @@ A.Connector = A.Base.create('line', A.Base, [], {
         /**
          * The connector ID
          *
-         * @attribute onLeftClick
-         * @default '(function() {})'
-         * @type String
+         * @attribute id
+         * @default 0
+         * @type Number
          */
         id: {
             value: 0,
             validator: isNumber
         },
-
 
         /**
          * Arrow points from `A.PolygonUtil` instance.
