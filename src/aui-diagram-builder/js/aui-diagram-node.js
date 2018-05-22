@@ -191,6 +191,17 @@ DiagramNode = A.Component.create({
         },
 
         /**
+         * The identify of the node.
+         *
+         * @attribute id
+         * @type Number
+         */
+        id: {
+            value : 0,
+            validator: A.Lang.isNumber
+        },
+
+        /**
          * The name of the node.
          *
          * @attribute name
