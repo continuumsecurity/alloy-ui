@@ -11,7 +11,7 @@
     <h1>AlloyUI - Diagram builder</h1>
     <div id="diagramBuilder"></div>
     <script>
-    YUI({ filter:'raw' }).use('aui-diagram-builder', function(Y) {
+    YUI({ filter:'debug' }).use('aui-diagram-builder', function(Y) {
 
         var availableFields = [
             {
@@ -95,7 +95,8 @@
                     xy: [650, 200],
                     width: 200,
                     height: 200,
-                    allowsLinking: true
+                    allowsLinking: true,
+                    onRightClick: '(function(attrs) { alert("right clicked me¡"})'
                 },
                 {
                     name: 'Task with an extra large name with quite an extra text',
