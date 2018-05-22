@@ -7,8 +7,13 @@
 ## [3.3.0](https://github.com/continuumsecurity/alloy-ui/releases/tag/3.3.0)
 
 * Task nodes can't move outside of their parent group 
-* IR-2255 Correct popup position
+* IR-2255 Util to fix position in popups
 * IR-2255 Added Node Right click Event
+* IR-2257 Added Connector Right Click Event
+* IR-2257 Added Connector Left Click Event
+* IR-2257 Added Node Id Attribute
+* IR-2257 Added Connector Id Attribute
+
 
 ## [3.2.0](https://github.com/continuumsecurity/alloy-ui/releases/tag/3.2.0)
 
