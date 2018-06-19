@@ -107,6 +107,30 @@ DiagramNode = A.Component.create({
         },
 
         /**
+         * Function in string that is called when drag starts
+         *
+         * @attribute onDragEnd
+         * @default '(function() {})'
+         * @type String
+         */
+        onDragStart: {
+            value: "(function() {})",
+            validator: A.Lang.isString
+        },
+
+        /**
+         * Function in string that is called when drag ends
+         *
+         * @attribute onDragEnd
+         * @default '(function() {})'
+         * @type String
+         */
+        onDragEnd: {
+            value: "(function() {})",
+            validator: A.Lang.isString
+        },
+
+        /**
          * Stores an instance of `A.PropertyBuilder`.
          *
          * @attribute builder

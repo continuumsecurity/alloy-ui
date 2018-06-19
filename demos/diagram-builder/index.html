@@ -60,6 +60,7 @@
         var diagramBuilder = new Y.DiagramBuilder({
             availableFields: availableFields,
             showDeleteNodeIcon: false,
+            moveNodeOutSideGroup: true,
             enableDeleteByKeyStroke: false,
             boundingBox: '#diagramBuilder',
             fields: [
@@ -96,7 +97,9 @@
                     width: 200,
                     height: 200,
                     allowsLinking: true,
-                    onRightClick: '(function(attrs) { alert("right clicked me¡"})'
+                    onRightClick: '(function(attrs) { alert("right clicked me¡")})',
+                    onDragStart: '(function(attrs) { console.error("drag start ¡")})',
+                    onDragEnd: '(function(attrs) { console.error("drag end ¡")})'
                 },
                 {
                     name: 'Task with an extra large name with quite an extra text',
