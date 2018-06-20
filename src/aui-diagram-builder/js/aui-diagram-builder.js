@@ -172,6 +172,12 @@ var DiagramBuilder = A.Component.create({
             writeOnce: 'initOnly'
         },
 
+        moveNodeOutSideGroup: {
+            validator: isBoolean,
+            value: true,
+            writeOnce: 'initOnly'
+        },
+
         enableDeleteByKeyStroke: {
             validator: isBoolean,
             value: true,
@@ -244,6 +250,7 @@ var DiagramBuilder = A.Component.create({
             instance.on({
                 cancel: instance._onCancel,
                 'drag:drag': instance._onDrag,
+                'drag:start': instance._onDragStart,
                 'drag:end': instance._onDragEnd,
                 'drop:hit': instance._onDropHit,
                 save: instance._onSave
@@ -951,6 +958,24 @@ var DiagramBuilder = A.Component.create({
             }
         },
 
+        _onDragStart: function(event) {
+            var instance = this;
+            var drag = event.target;
+            var diagramNode = A.Widget.getByNode(drag.get('dragNode'));
+
+            if (diagramNode && instance.isFieldsDrag(drag)) {
+                var attrs = this.correctPosition({
+                    id: diagramNode.getAttrs().id,
+                    name: diagramNode.getAttrs().name,
+                    clientX: event.clientX,
+                    clientY: event.clientY,
+                    type: diagramNode.getAttrs().type
+                });
+
+                eval(diagramNode.get('onDragStart'))(attrs);
+            }
+        },
+
         /**
          * Triggers when the drag ends.
          *
@@ -983,6 +1008,16 @@ var DiagramBuilder = A.Component.create({
                         }
                     ]);
                 }
+
+                var attrs = this.correctPosition({
+                    id: diagramNode.getAttrs().id,
+                    name: diagramNode.getAttrs().name,
+                    clientX: event.clientX,
+                    clientY: event.clientY,
+                    type: diagramNode.getAttrs().type
+                });
+
+                eval(diagramNode.get('onDragEnd'))(attrs);
             }
         },
 
@@ -1381,7 +1416,7 @@ var DiagramBuilder = A.Component.create({
             if (diagramNode.get('type') === 'task') {
                 instance.get('fields').each(function (node) {
                     if (node.get('type') === 'group' && node.get('children')) {
-                        if (node.get('children').includes(diagramNode.get('name'))) {
+                        if (!instance._getAttr('moveNodeOutSideGroup') && node.get('children').includes(diagramNode.get('name'))) {
 
                             var leftGroupBoundary = node.get('x');
                             var topGroupBoundary = node.get('y');
