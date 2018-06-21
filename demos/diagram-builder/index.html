@@ -116,7 +116,10 @@
                     width: 200,
                     height: 500,
                     allowsLinking: false,
-                    children: ['Task0', 'Fork0']
+                    children: ['Task0', 'Fork0'],
+                    onRightClick: '(function(attrs) { alert("right clicked me¡")})',
+                    onDragStart: '(function(attrs) { console.error("drag start ¡")})',
+                    onDragEnd: '(function(attrs) { debugger; console.error("drag end ¡")})'
                 },
                 {
                     name: 'Fork0',

@@ -1012,8 +1012,8 @@ var DiagramBuilder = A.Component.create({
                 var attrs = this.correctPosition({
                     id: diagramNode.getAttrs().id,
                     name: diagramNode.getAttrs().name,
-                    clientX: event.clientX,
-                    clientY: event.clientY,
+                    clientX: event.pageX,
+                    clientY: event.pageY,
                     type: diagramNode.getAttrs().type
                 });
 
