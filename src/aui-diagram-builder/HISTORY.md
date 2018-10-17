@@ -4,6 +4,12 @@
 
 ## @VERSION@
 
+## [4.0.0](https://github.com/continuumsecurity/alloy-ui/releases/tag/4.0.0)
+
+* IR-2756 Use id instead the name on move task
+* IR-2756 expose id of the tasks to use it as a main attribute
+* IR-2766 Use id instead the name on trasitions
+
 ## [3.4.0](https://github.com/continuumsecurity/alloy-ui/releases/tag/3.4.0)
 
 * IR-2255 Util to fix position in popups
