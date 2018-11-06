@@ -60,37 +60,43 @@
         var diagramBuilder = new Y.DiagramBuilder({
             availableFields: availableFields,
             showDeleteNodeIcon: false,
-            moveNodeOutSideGroup: true,
+            moveNodeOutSideGroup: false,
             enableDeleteByKeyStroke: false,
             boundingBox: '#diagramBuilder',
             fields: [
                 {
+                    id: 1,
                     name: 'Start0',
                     type: 'start',
                     xy: [10, 10]
                 },
                 {
+                    id: 2,
                     name: 'Condition0',
                     type: 'condition',
                     xy: [100, 100]
                 },
                 {
+                   id: 3,
                     name: 'State0',
                     type: 'state',
                     xy: [250, 100]
                 },
                 {
+                   id: 4,
                     name: 'Join0',
                     type: 'join',
                     xy: [100, 300]
                 },
                 {
+                   id: 5,
                     name: 'Task0',
                     type: 'task',
                     xy: [350, 100],
                     allowsLinking: false
                 },
                 {
+                   id: 6,
                     name: 'Task with an extra large name',
                     type: 'task',
                     xy: [650, 200],
@@ -102,6 +108,7 @@
                     onDragEnd: '(function(attrs) { console.error("drag end ¡")})'
                 },
                 {
+                   id: 7,
                     name: 'Task with an extra large name with quite an extra text',
                     type: 'task',
                     xy: [875, 100],
@@ -110,23 +117,27 @@
                     allowsLinking: true
                 },
                 {
+                   id: 8,
                     name: 'Group',
                     type: 'group',
                     xy: [350, 50],
                     width: 200,
                     height: 500,
                     allowsLinking: false,
-                    children: ['Task0', 'Fork0'],
+                    children: [{name: 'Task0', id: 5}, {name: 'Fork0', id: 9}],
                     onRightClick: '(function(attrs) { alert("right clicked me¡")})',
                     onDragStart: '(function(attrs) { console.error("drag start ¡")})',
-                    onDragEnd: '(function(attrs) { debugger; console.error("drag end ¡")})'
+                    onDragEnd: '(function(attrs) { console.error("drag end ¡")})',
+                    onMouseMove: '(function(attrs) { console.error("MOVE MOVE")})'
                 },
                 {
+                   id: 9,
                     name: 'Fork0',
                     type: 'fork',
                     xy: [400, 300]
                 },
                 {
+                    id: '10',
                     name: 'EndNode0',
                     type: 'end',
                     xy: [600, 10]
@@ -139,48 +150,48 @@
         diagramBuilder.connectAll([
             {
                 connector: { name: 'Link0', onMouseMove: clickFn, showName: false },
-                source: 'Start0',
-                target: 'Condition0'
+                source: '9',
+                target: '5'
             },
             {
                 connector: { name: 'Link1' },
-                source: 'Condition0',
-                target: 'State0'
+                source: '4',
+                target: '3'
             },
             {
                 connector: { name: 'Link1.1' },
-                source: 'Task0',
-                target: 'Task with an extra large name'
+                source: '1',
+                target: '10'
             },
             {
                 connector: { name: 'Link1.1' },
-                source: 'Task with an extra large name',
-                target: 'Task0'
+                source: '5',
+                target: '9'
             },
             {
                 connector: { name: 'Link2' },
-                source: 'State0',
-                target: 'Join0'
+                source: '8',
+                target: '1'
             },
             {
                 connector: { name: 'Link3' },
-                source: 'Join0',
-                target: 'Task0'
+                source: '4',
+                target: '2'
             },
             {
                 connector: { name: 'Link4' },
-                source: 'Task0',
-                target: 'Fork0'
+                source: '10',
+                target: '8'
             },
             {
                 connector: { name: 'Link5' },
-                source: 'Fork0',
-                target: 'EndNode0'
+                source: '1',
+                target: '3'
             },
             {
                 connector: { name: 'Link6' },
-                source: 'State0',
-                target: 'EndNode0'
+                source: '6',
+                target: '7'
             }
         ]);
     });
