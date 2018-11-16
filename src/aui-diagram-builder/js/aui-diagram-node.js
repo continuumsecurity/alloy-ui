@@ -131,6 +131,20 @@ DiagramNode = A.Component.create({
         },
 
         /**
+         * Function in string that is called when mouse is moved
+         * The specific event (leave, enter) must be specified as parameter 'event'
+         *
+         * @attribute onMouseOut
+         * @default '(function() {})'
+         * @type String
+         */
+        onMouseMove: {
+            value: "(function() {})",
+            validator: A.Lang.isString
+        },
+
+
+        /**
          * Stores an instance of `A.PropertyBuilder`.
          *
          * @attribute builder
