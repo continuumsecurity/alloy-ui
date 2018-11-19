@@ -1,6 +1,6 @@
 {
   "name": "alloy-ui",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "homepage": "http://alloyui.com",
   "authors": [
     "Eduardo Lundgren <eduardo.lundgren@liferay.com>"
@@ -14,6 +14,14 @@
     "yui3"
   ],
   "license": "BSD",
+   "ignore": [
+     "**/.*",
+     "node_modules",
+     "bower_components",
+     "test",
+     "tests",
+     "src"
+    ],
   "dependencies": {
     "yui3": "liferay/yui3#patched-v3.18.1"
   },
