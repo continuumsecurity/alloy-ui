@@ -11,6 +11,10 @@ gulp.task('init', function(callback) {
     run('init-bower', 'init-npm', 'init-yui', callback);
 });
 
+gulp.task('init-debug', function (callback) {
+   run('init-bower', 'init-npm', 'init-yui-debug', callback);
+});
+
 gulp.task('init-bower', function(callback) {
     var args = ['install', '--allow-root'];
     var cmd = 'bower';
@@ -34,6 +38,10 @@ gulp.task('init-npm', function(callback) {
 });
 
 gulp.task('init-yui', function() {
+    run('yui-minify', 'yui-assets', 'yui-lang')
+});
+
+gulp.task('init-yui-debug', function() {
     return gulp.src('bower_components/yui3/build/**', { cwd: ROOT })
         .pipe(replace('@VERSION@', alloy.yuiversion, {skipBinary: true}))
         .pipe(gulp.dest('build', { cwd: ROOT }));
