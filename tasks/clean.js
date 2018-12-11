@@ -17,6 +17,10 @@ gulp.task('clean-build', function(callback) {
     del(['build'], callback);
 });
 
+gulp.task('clean-aui', function (callback) {
+    del(['aui'], callback);
+});
+
 gulp.task('clean-npm', function(callback) {
     del(['node_modules'], callback);
 });
