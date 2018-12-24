@@ -28,6 +28,13 @@ gulp.task('loader-prebuild', function(callback) {
 });
 
 gulp.task('loader-postbuild', function() {
+    return gulp.src('prebuild/aui/*.js', { cwd: ROOT })
+        .pipe(replace(/\(yui\(/g, '(aui|yui('))
+        .pipe(insert.append('YUI.Env.core.push.apply(YUI.Env.core, ["aui-base-core"]);'))
+        .pipe(gulp.dest('prebuild/aui/', { cwd: ROOT }));
+});
+
+gulp.task('loader-postbuild-debug', function() {
     return gulp.src('build/aui/*.js', { cwd: ROOT })
         .pipe(replace(/\(yui\(/g, '(aui|yui('))
         .pipe(insert.append('YUI.Env.core.push.apply(YUI.Env.core, ["aui-base-core"]);'))

@@ -41,14 +41,14 @@ gulp.task('build-publish', function(callback) {
 });
 
 gulp.task('aui-postbuild', function (callback) {
-    run('aui-minify', 'aui-assets', 'aui-lang', 'clean-aui', callback)
+    run('build-minify', 'build-assets', 'build-lang', 'clean-prebuild', callback)
 });
 
 function build(cwd, callback) {
     var args = [];
     var cmd = 'shifter';
 
-    args.push('--build-dir=' + path.join(ROOT, 'aui'));
+    args.push('--build-dir=' + path.join(ROOT, 'prebuild'));
     args.push('--no-cache');
     args.push('--no-coverage');
     args.push('--no-lint');
@@ -90,7 +90,7 @@ gulp.task('build-base-debug', function(callback) {
 });
 
 gulp.task('build-loader-debug', function(callback) {
-    run('loader-prebuild', 'aliases', 'build-base-debug', 'loader-postbuild', callback);
+    run('loader-prebuild', 'aliases', 'build-base-debug', 'loader-postbuild-debug', callback);
 });
 
 gulp.task('build-publish-debug', function(callback) {
