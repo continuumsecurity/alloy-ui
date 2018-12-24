@@ -38,8 +38,9 @@ gulp.task('init-npm', function(callback) {
 });
 
 gulp.task('init-yui', function() {
-    run('yui-minify', 'yui-assets', 'yui-lang')
-});
+    return gulp.src('bower_components/yui3/build/**', { cwd: ROOT })
+        .pipe(replace('@VERSION@', alloy.yuiversion, {skipBinary: true}))
+        .pipe(gulp.dest('prebuild', { cwd: ROOT }));});
 
 gulp.task('init-yui-debug', function() {
     return gulp.src('bower_components/yui3/build/**', { cwd: ROOT })
