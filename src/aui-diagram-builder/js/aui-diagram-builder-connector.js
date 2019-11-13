@@ -626,11 +626,11 @@ A.Connector = A.Base.create('line', A.Base, [], {
     /**
      * Set the `nodeTag` attribute.
      *
-     * @method _setnodeTag
+     * @method _setNodeTag
      * @param val
      * @protected
      */
-    _setnodeTag: function(val) {
+    _setNodeTag: function(val) {
         var instance = this;
 
         if (!A.instanceOf(val, A.Node)) {
@@ -904,7 +904,7 @@ A.Connector = A.Base.create('line', A.Base, [], {
          * @writeOnce
          */
         nodeTag: {
-            setter: '_setnodeTag',
+            setter: '_setNodeTag',
             value: '<span class="' + CSS_DIAGRAM_BUILDER_CONNECTOR_NAME + '"></span>',
             writeOnce: true
         },
