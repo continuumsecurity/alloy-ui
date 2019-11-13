@@ -178,7 +178,7 @@ A.Connector = A.Base.create('line', A.Base, [], {
 
         instance.shape.destroy();
         instance.shapeArrow.destroy();
-        instance.get('nodeName').remove();
+        instance.get('nodeTag').remove();
     },
 
     /**
@@ -250,7 +250,7 @@ A.Connector = A.Base.create('line', A.Base, [], {
         shapeArrow.end();
 
         if (instance.get('showTag')) {
-            instance.get('nodeName').center(instance.toXY(centerXY));
+            instance.get('nodeTag').center(instance.toXY(centerXY));
         }
 
         return instance;
@@ -479,7 +479,7 @@ A.Connector = A.Base.create('line', A.Base, [], {
         shape.on('mouseleave', A.bind(instance._onShapeMouseLeave, instance));
         shape.on('contextmenu', A.bind(instance._onShapeRightClick, instance));
         shapeArrow.on('click', A.bind(instance._onShapeClick, instance));
-        instance.get('nodeName').on('click', A.bind(instance._onShapeClick, instance));
+        instance.get('nodeTag').on('click', A.bind(instance._onShapeClick, instance));
     },
 
     /**
@@ -624,13 +624,13 @@ A.Connector = A.Base.create('line', A.Base, [], {
     },
 
     /**
-     * Set the `nodeName` attribute.
+     * Set the `nodeTag` attribute.
      *
-     * @method _setNodeName
+     * @method _setnodeTag
      * @param val
      * @protected
      */
-    _setNodeName: function(val) {
+    _setnodeTag: function(val) {
         var instance = this;
 
         if (!A.instanceOf(val, A.Node)) {
@@ -699,7 +699,7 @@ A.Connector = A.Base.create('line', A.Base, [], {
     _uiSetName: function(val) {
         var instance = this;
 
-        instance.get('nodeName').html(A.Escape.html(val));
+        instance.get('nodeTag').html(A.Escape.html(val));
     },
 
     /**
@@ -730,7 +730,7 @@ A.Connector = A.Base.create('line', A.Base, [], {
     _uiSetshowTag: function(val) {
         var instance = this;
 
-        instance.get('nodeName').toggleClass(CSS_HIDE, !val);
+        instance.get('nodeTag').toggleClass(CSS_HIDE, !val);
     },
 
     /**
@@ -899,12 +899,12 @@ A.Connector = A.Base.create('line', A.Base, [], {
         /**
          * The connector node name.
          *
-         * @attribute nodeName
+         * @attribute nodeTag
          * @type String
          * @writeOnce
          */
-        nodeName: {
-            setter: '_setNodeName',
+        nodeTag: {
+            setter: '_setnodeTag',
             value: '<span class="' + CSS_DIAGRAM_BUILDER_CONNECTOR_NAME + '"></span>',
             writeOnce: true
         },

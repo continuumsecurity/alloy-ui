@@ -2,7 +2,7 @@
 This fork starts from version 3.1.0 and is born out of the necessity to create new features for alloy diagram-builder to apply Threat Modeling diagraming standards.
 
 ## Version 
-Current diagram-builder version 4.1.1
+Current diagram-builder version 4.1.2
 
 ## Features
 Features added to ContinuumSecurity diagram-builder Fork:
