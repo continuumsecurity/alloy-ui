@@ -151,7 +151,7 @@ A.Connector = A.Base.create('line', A.Base, [], {
             p1Change: instance.draw,
             p2Change: instance.draw,
             selectedChange: instance._afterSelectedChange,
-            showNameChange: instance._afterShowNameChange,
+            showTagChange: instance._aftershowTagChange,
             visibleChange: instance._afterVisibleChange
         });
 
@@ -164,7 +164,7 @@ A.Connector = A.Base.create('line', A.Base, [], {
         instance._uiSetVisible(instance.get('visible'));
         instance._uiSetName(instance.get('name'));
         instance._uiSetSelected(instance.get('selected'), !lazyDraw);
-        instance._uiSetShowName(instance.get('showName'));
+        instance._uiSetshowTag(instance.get('showTag'));
     },
 
     /**
@@ -249,7 +249,7 @@ A.Connector = A.Base.create('line', A.Base, [], {
         A.PolygonUtil.drawArrow(shapeArrow, xy2[0], xy2[1], xy1[0], xy1[1], instance.get('arrowPoints'));
         shapeArrow.end();
 
-        if (instance.get('showName')) {
+        if (instance.get('showTag')) {
             instance.get('nodeName').center(instance.toXY(centerXY));
         }
 
@@ -432,16 +432,16 @@ A.Connector = A.Base.create('line', A.Base, [], {
     },
 
     /**
-     * Fires after `showName` attribute value change.
+     * Fires after `showTag` attribute value change.
      *
-     * @method _afterShowNameChange
+     * @method _aftershowTagChange
      * @param event
      * @protected
      */
-    _afterShowNameChange: function(event) {
+    _aftershowTagChange: function(event) {
         var instance = this;
 
-        instance._uiSetShowName(event.newVal);
+        instance._uiSetshowTag(event.newVal);
     },
 
     /**
@@ -721,13 +721,13 @@ A.Connector = A.Base.create('line', A.Base, [], {
     },
 
     /**
-     * Sets the `showName` attribute in the UI.
+     * Sets the `showTag` attribute in the UI.
      *
-     * @method _uiSetShowName
+     * @method _uiSetshowTag
      * @param val
      * @protected
      */
-    _uiSetShowName: function(val) {
+    _uiSetshowTag: function(val) {
         var instance = this;
 
         instance.get('nodeName').toggleClass(CSS_HIDE, !val);
@@ -745,7 +745,7 @@ A.Connector = A.Base.create('line', A.Base, [], {
 
         instance.shape.set('visible', val);
         instance.shapeArrow.set('visible', val);
-        instance._uiSetShowName(val && instance.get('showName'));
+        instance._uiSetshowTag(val && instance.get('showTag'));
     },
 
     /**
@@ -1052,11 +1052,11 @@ A.Connector = A.Base.create('line', A.Base, [], {
         /**
          * Sets the visibility of the connector name.
          *
-         * @attribute showName
+         * @attribute showTag
          * @default true
          * @type Boolean
          */
-        showName: {
+        showTag: {
             validator: isBoolean,
             value: true
         },
