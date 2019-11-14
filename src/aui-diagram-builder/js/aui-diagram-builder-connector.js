@@ -165,6 +165,7 @@ A.Connector = A.Base.create('line', A.Base, [], {
         instance._uiSetVisible(instance.get('visible'));
         instance._uiSetName(instance.get('name'));
         instance._uiSetSelected(instance.get('selected'), !lazyDraw);
+        instance._uiSetTag(instance.get('tag'));
         instance._uiSetShowTag(instance.get('showTag'));
     },
 
@@ -721,6 +722,19 @@ A.Connector = A.Base.create('line', A.Base, [], {
         var instance = this;
 
         instance.get('nodeName').html(A.Escape.html(val));
+    },
+
+    /**
+     * Sets the `tag` attribute in the UI.
+     *
+     * @method _uiSetTag
+     * @param val
+     * @protected
+     */
+    _uiSetTag: function(val) {
+        var instance = this;
+
+        instance.get('tag').html(A.Escape.html(val));
     },
 
     /**
