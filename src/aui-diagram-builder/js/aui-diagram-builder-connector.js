@@ -56,7 +56,7 @@ var Lang = A.Lang,
     getCN = A.getClassName,
 
     CSS_DIAGRAM_BUILDER_CONNECTOR_NAME = getCN('diagram', 'builder', 'connector', 'name'),
-    CSS_DIAGRAM_BUILDER_CONNECTOR_TAG = getCN('diagram', 'builder', 'connector', 'tag'),
+    CSS_DIAGRAM_BUILDER_CONNECTOR_TAG = getCN('diagram', 'builder', 'connector', 'nodeTag'),
     CSS_HIDE = getCN('hide');
 
 A.PolygonUtil = {
@@ -165,7 +165,7 @@ A.Connector = A.Base.create('line', A.Base, [], {
         instance._uiSetVisible(instance.get('visible'));
         instance._uiSetName(instance.get('name'));
         instance._uiSetSelected(instance.get('selected'), !lazyDraw);
-        instance._uiSetTag(instance.get('tag'));
+        instance._uiSetNodeTag(instance.get('nodeTag'));
         instance._uiSetShowTag(instance.get('showTag'));
     },
 
@@ -181,7 +181,7 @@ A.Connector = A.Base.create('line', A.Base, [], {
         instance.shape.destroy();
         instance.shapeArrow.destroy();
         instance.get('nodeName').remove();
-        instance.get('tag').remove();
+        instance.get('nodeTag').remove();
     },
 
     /**
@@ -253,7 +253,7 @@ A.Connector = A.Base.create('line', A.Base, [], {
         shapeArrow.end();
 
         if (instance.get('showTag')) {
-            instance.get('tag').center(instance.toXY(centerXY));
+            instance.get('nodeTag').center(instance.toXY(centerXY));
         }
 
         return instance;
@@ -483,7 +483,7 @@ A.Connector = A.Base.create('line', A.Base, [], {
         shape.on('contextmenu', A.bind(instance._onShapeRightClick, instance));
         shapeArrow.on('click', A.bind(instance._onShapeClick, instance));
         instance.get('nodeName').on('click', A.bind(instance._onShapeClick, instance));
-        instance.get('tag').on('click', A.bind(instance._onShapeClick, instance));
+        instance.get('nodeTag').on('click', A.bind(instance._onShapeClick, instance));
     },
 
     /**
@@ -646,13 +646,13 @@ A.Connector = A.Base.create('line', A.Base, [], {
     },
 
     /**
-     * Set the `tag` attribute.
+     * Set the `nodeTag` attribute.
      *
-     * @method _setTag
+     * @method _setNodeTag
      * @param val
      * @protected
      */
-    _setTag: function(val) {
+    _setNodeTag: function(val) {
         var instance = this;
 
         if (!A.instanceOf(val, A.Node)) {
@@ -725,16 +725,16 @@ A.Connector = A.Base.create('line', A.Base, [], {
     },
 
     /**
-     * Sets the `tag` attribute in the UI.
+     * Sets the `nodeTag` attribute in the UI.
      *
-     * @method _uiSetTag
+     * @method _uiSetNodeTag
      * @param val
      * @protected
      */
-    _uiSetTag: function(val) {
+    _uiSetNodeTag: function(val) {
         var instance = this;
 
-        instance.get('tag').html(A.Escape.html(val));
+        instance.get('nodeTag').html(A.Escape.html(val));
     },
 
     /**
@@ -765,7 +765,7 @@ A.Connector = A.Base.create('line', A.Base, [], {
     _uiSetShowTag: function(val) {
         var instance = this;
 
-        instance.get('tag').toggleClass(CSS_HIDE, !val);
+        instance.get('nodeTag').toggleClass(CSS_HIDE, !val);
     },
 
     /**
@@ -945,14 +945,14 @@ A.Connector = A.Base.create('line', A.Base, [], {
         },
 
         /**
-         * The connector tag.
+         * The connector nodeTag.
          *
-         * @attribute tag
+         * @attribute nodeTag
          * @type String
          * @writeOnce
          */
-        tag: {
-            setter: '_setTag',
+        nodeTag: {
+            setter: '_setNodeTag',
             value: '<span class="' + CSS_DIAGRAM_BUILDER_CONNECTOR_TAG + '"></span>',
             writeOnce: true
         },
