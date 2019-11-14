@@ -256,8 +256,6 @@ A.Connector = A.Base.create('line', A.Base, [], {
             instance.get('nodeTag').center(instance.toXY(centerXY));
         }
 
-        instance.get('nodeName').toggleClass(CSS_HIDE, true);
-
         return instance;
     },
 
@@ -724,6 +722,7 @@ A.Connector = A.Base.create('line', A.Base, [], {
         var instance = this;
 
         instance.get('nodeName').html(A.Escape.html(val));
+        instance.get('nodeName').toggleClass(CSS_HIDE, true);
     },
 
     /**
