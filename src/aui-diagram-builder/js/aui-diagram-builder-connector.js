@@ -56,7 +56,7 @@ var Lang = A.Lang,
     getCN = A.getClassName,
 
     CSS_DIAGRAM_BUILDER_CONNECTOR_NAME = getCN('diagram', 'builder', 'connector', 'name'),
-    CSS_DIAGRAM_BUILDER_CONNECTOR_TAG = getCN('diagram', 'builder', 'connector', 'nodeTag'),
+    CSS_DIAGRAM_BUILDER_CONNECTOR_TAG = getCN('diagram', 'builder', 'connector', 'tag'),
     CSS_HIDE = getCN('hide');
 
 A.PolygonUtil = {
@@ -256,7 +256,7 @@ A.Connector = A.Base.create('line', A.Base, [], {
             instance.get('nodeTag').center(instance.toXY(centerXY));
         }
 
-        instance.get('nodeTag').toggleClass(CSS_HIDE, true);
+        instance.get('nodeName').toggleClass(CSS_HIDE, true);
 
         return instance;
     },
