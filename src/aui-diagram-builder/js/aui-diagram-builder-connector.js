@@ -131,7 +131,7 @@ A.PolygonUtil = {
  * @constructor
  */
 A.Connector = A.Base.create('line', A.Base, [], {
-    SERIALIZABLE_ATTRS: ['color', 'lazyDraw', 'name', 'shapeSelected', 'shapeHover', /*SHAPE,*/ 'p1', 'p2'],
+    SERIALIZABLE_ATTRS: ['color', 'lazyDraw', 'name', 'tag', 'shapeSelected', 'shapeHover', /*SHAPE,*/ 'p1', 'p2'],
 
     shape: null,
     shapeArrow: null,
@@ -165,7 +165,7 @@ A.Connector = A.Base.create('line', A.Base, [], {
         instance._uiSetVisible(instance.get('visible'));
         instance._uiSetName(instance.get('name'));
         instance._uiSetSelected(instance.get('selected'), !lazyDraw);
-        instance._uiSetNodeTag(instance.get('nodeTag'));
+        instance._uiSetTag(instance.get('tag'));
         instance._uiSetShowTag(instance.get('showTag'));
     },
 
@@ -255,6 +255,8 @@ A.Connector = A.Base.create('line', A.Base, [], {
         if (instance.get('showTag')) {
             instance.get('nodeTag').center(instance.toXY(centerXY));
         }
+
+        instance.get('nodeTag').toggleClass(CSS_HIDE, true);
 
         return instance;
     },
@@ -725,13 +727,13 @@ A.Connector = A.Base.create('line', A.Base, [], {
     },
 
     /**
-     * Sets the `nodeTag` attribute in the UI.
+     * Sets the `Tag` attribute in the UI.
      *
-     * @method _uiSetNodeTag
+     * @method _uiSetTag
      * @param val
      * @protected
      */
-    _uiSetNodeTag: function(val) {
+    _uiSetTag: function(val) {
         var instance = this;
 
         instance.get('nodeTag').html(A.Escape.html(val));
@@ -927,6 +929,19 @@ A.Connector = A.Base.create('line', A.Base, [], {
         name: {
             valueFn: function() {
                 return 'connector' + (++A.Env._uidx);
+            },
+            validator: isString
+        },
+
+        /**
+         * The tag of the connector.
+         *
+         * @attribute tag
+         * @type String
+         */
+        tag: {
+            valueFn: function () {
+                return (++A.Env._uidx);
             },
             validator: isString
         },
