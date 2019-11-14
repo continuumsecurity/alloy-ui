@@ -56,6 +56,7 @@ var Lang = A.Lang,
     getCN = A.getClassName,
 
     CSS_DIAGRAM_BUILDER_CONNECTOR_NAME = getCN('diagram', 'builder', 'connector', 'name'),
+    CSS_DIAGRAM_BUILDER_CONNECTOR_TAG = getCN('diagram', 'builder', 'connector', 'tag'),
     CSS_HIDE = getCN('hide');
 
 A.PolygonUtil = {
@@ -151,7 +152,7 @@ A.Connector = A.Base.create('line', A.Base, [], {
             p1Change: instance.draw,
             p2Change: instance.draw,
             selectedChange: instance._afterSelectedChange,
-            showTagChange: instance._aftershowTagChange,
+            showTagChange: instance._afterShowTagChange,
             visibleChange: instance._afterVisibleChange
         });
 
@@ -164,7 +165,7 @@ A.Connector = A.Base.create('line', A.Base, [], {
         instance._uiSetVisible(instance.get('visible'));
         instance._uiSetName(instance.get('name'));
         instance._uiSetSelected(instance.get('selected'), !lazyDraw);
-        instance._uiSetshowTag(instance.get('showTag'));
+        instance._uiSetShowTag(instance.get('showTag'));
     },
 
     /**
@@ -178,7 +179,8 @@ A.Connector = A.Base.create('line', A.Base, [], {
 
         instance.shape.destroy();
         instance.shapeArrow.destroy();
-        instance.get('nodeTag').remove();
+        instance.get('nodeName').remove();
+        instance.get('tag').remove();
     },
 
     /**
@@ -250,7 +252,7 @@ A.Connector = A.Base.create('line', A.Base, [], {
         shapeArrow.end();
 
         if (instance.get('showTag')) {
-            instance.get('nodeTag').center(instance.toXY(centerXY));
+            instance.get('tag').center(instance.toXY(centerXY));
         }
 
         return instance;
@@ -434,14 +436,14 @@ A.Connector = A.Base.create('line', A.Base, [], {
     /**
      * Fires after `showTag` attribute value change.
      *
-     * @method _aftershowTagChange
+     * @method _afterShowTagChange
      * @param event
      * @protected
      */
-    _aftershowTagChange: function(event) {
+    _afterShowTagChange: function(event) {
         var instance = this;
 
-        instance._uiSetshowTag(event.newVal);
+        instance._uiSetShowTag(event.newVal);
     },
 
     /**
@@ -479,7 +481,8 @@ A.Connector = A.Base.create('line', A.Base, [], {
         shape.on('mouseleave', A.bind(instance._onShapeMouseLeave, instance));
         shape.on('contextmenu', A.bind(instance._onShapeRightClick, instance));
         shapeArrow.on('click', A.bind(instance._onShapeClick, instance));
-        instance.get('nodeTag').on('click', A.bind(instance._onShapeClick, instance));
+        instance.get('nodeName').on('click', A.bind(instance._onShapeClick, instance));
+        instance.get('tag').on('click', A.bind(instance._onShapeClick, instance));
     },
 
     /**
@@ -624,13 +627,31 @@ A.Connector = A.Base.create('line', A.Base, [], {
     },
 
     /**
-     * Set the `nodeTag` attribute.
+     * Set the `nodeName` attribute.
      *
-     * @method _setNodeTag
+     * @method _setNodeName
      * @param val
      * @protected
      */
-    _setNodeTag: function(val) {
+    _setNodeName: function(val) {
+        var instance = this;
+
+        if (!A.instanceOf(val, A.Node)) {
+            val = new A.Node.create(val);
+            instance.get('builder').dropContainer.append(val.unselectable());
+        }
+
+        return val;
+    },
+
+    /**
+     * Set the `tag` attribute.
+     *
+     * @method _setTag
+     * @param val
+     * @protected
+     */
+    _setTag: function(val) {
         var instance = this;
 
         if (!A.instanceOf(val, A.Node)) {
@@ -699,7 +720,7 @@ A.Connector = A.Base.create('line', A.Base, [], {
     _uiSetName: function(val) {
         var instance = this;
 
-        instance.get('nodeTag').html(A.Escape.html(val));
+        instance.get('nodeName').html(A.Escape.html(val));
     },
 
     /**
@@ -723,14 +744,14 @@ A.Connector = A.Base.create('line', A.Base, [], {
     /**
      * Sets the `showTag` attribute in the UI.
      *
-     * @method _uiSetshowTag
+     * @method _uiSetShowTag
      * @param val
      * @protected
      */
-    _uiSetshowTag: function(val) {
+    _uiSetShowTag: function(val) {
         var instance = this;
 
-        instance.get('nodeTag').toggleClass(CSS_HIDE, !val);
+        instance.get('tag').toggleClass(CSS_HIDE, !val);
     },
 
     /**
@@ -745,7 +766,7 @@ A.Connector = A.Base.create('line', A.Base, [], {
 
         instance.shape.set('visible', val);
         instance.shapeArrow.set('visible', val);
-        instance._uiSetshowTag(val && instance.get('showTag'));
+        instance._uiSetShowTag(val && instance.get('showTag'));
     },
 
     /**
@@ -899,13 +920,26 @@ A.Connector = A.Base.create('line', A.Base, [], {
         /**
          * The connector node name.
          *
-         * @attribute nodeTag
+         * @attribute nodeName
          * @type String
          * @writeOnce
          */
-        nodeTag: {
-            setter: '_setNodeTag',
+        nodeName: {
+            setter: '_setNodeName',
             value: '<span class="' + CSS_DIAGRAM_BUILDER_CONNECTOR_NAME + '"></span>',
+            writeOnce: true
+        },
+
+        /**
+         * The connector tag.
+         *
+         * @attribute tag
+         * @type String
+         * @writeOnce
+         */
+        nodeName: {
+            setter: 'setTag',
+            value: '<span class="' + CSS_DIAGRAM_BUILDER_CONNECTOR_TAG + '"></span>',
             writeOnce: true
         },
 
