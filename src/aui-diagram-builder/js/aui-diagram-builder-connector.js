@@ -951,8 +951,8 @@ A.Connector = A.Base.create('line', A.Base, [], {
          * @type String
          * @writeOnce
          */
-        nodeName: {
-            setter: 'setTag',
+        tag: {
+            setter: '_setTag',
             value: '<span class="' + CSS_DIAGRAM_BUILDER_CONNECTOR_TAG + '"></span>',
             writeOnce: true
         },
