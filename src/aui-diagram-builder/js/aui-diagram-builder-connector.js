@@ -754,9 +754,12 @@ A.Connector = A.Base.create('line', A.Base, [], {
     _uiSetTags: function(val) {
         var instance = this;
 
+        var tagContainer = "";
         val.forEach(function (value) {
-            instance.get('tagContainer').html(A.Escape.html(value));
+            tagContainer += instance.get('nodeTag').html(A.Escape.html(value));
         });
+
+        instance.get('tagContainer').html(A.Escape.html(tagContainer));
     },
 
     /**
