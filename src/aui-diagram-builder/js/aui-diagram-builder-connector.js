@@ -57,6 +57,7 @@ var Lang = A.Lang,
 
     CSS_DIAGRAM_BUILDER_CONNECTOR_NAME = getCN('diagram', 'builder', 'connector', 'name'),
     CSS_DIAGRAM_BUILDER_CONNECTOR_TAG = getCN('diagram', 'builder', 'connector', 'tag'),
+    CSS_DIAGRAM_BUILDER_CONNECTOR_TAG_CONTAINER = getCN('diagram', 'builder', 'connector', 'tag', 'container'),
     CSS_HIDE = getCN('hide');
 
 A.PolygonUtil = {
@@ -181,7 +182,7 @@ A.Connector = A.Base.create('line', A.Base, [], {
         instance.shape.destroy();
         instance.shapeArrow.destroy();
         instance.get('nodeName').remove();
-        instance.get('nodeTag').remove();
+        instance.get('tagContainer').remove();
     },
 
     /**
@@ -253,7 +254,7 @@ A.Connector = A.Base.create('line', A.Base, [], {
         shapeArrow.end();
 
         if (instance.get('showTag')) {
-            instance.get('nodeTag').center(instance.toXY(centerXY));
+            instance.get('tagContainer').center(instance.toXY(centerXY));
         }
 
         return instance;
@@ -483,7 +484,7 @@ A.Connector = A.Base.create('line', A.Base, [], {
         shape.on('contextmenu', A.bind(instance._onShapeRightClick, instance));
         shapeArrow.on('click', A.bind(instance._onShapeClick, instance));
         instance.get('nodeName').on('click', A.bind(instance._onShapeClick, instance));
-        instance.get('nodeTag').on('click', A.bind(instance._onShapeClick, instance));
+        instance.get('tagContainer').on('click', A.bind(instance._onShapeClick, instance));
     },
 
     /**
@@ -664,6 +665,24 @@ A.Connector = A.Base.create('line', A.Base, [], {
     },
 
     /**
+     * Set the `tagContainer` attribute.
+     *
+     * @method _setTagContainer
+     * @param val
+     * @protected
+     */
+    _setTagContainer: function(val) {
+        var instance = this;
+
+        if (!A.instanceOf(val, A.Node)) {
+            val = new A.Node.create(val);
+            instance.get('builder').dropContainer.append(val.unselectable());
+        }
+
+        return val;
+    },
+
+    /**
      * Set the `shape` attribute.
      *
      * @method _setShape
@@ -736,7 +755,7 @@ A.Connector = A.Base.create('line', A.Base, [], {
         var instance = this;
 
         val.forEach(function (value) {
-            instance.get('nodeTag').html(A.Escape.html(value));
+            instance.get('tagContainer').html(A.Escape.html(value));
         });
     },
 
@@ -768,7 +787,7 @@ A.Connector = A.Base.create('line', A.Base, [], {
     _uiSetShowTag: function(val) {
         var instance = this;
 
-        instance.get('nodeTag').toggleClass(CSS_HIDE, !val);
+        instance.get('tagContainer').toggleClass(CSS_HIDE, !val);
     },
 
     /**
@@ -946,6 +965,19 @@ A.Connector = A.Base.create('line', A.Base, [], {
         },
 
         /**
+         * The connector tagContainer
+         *
+         * @attribute tagContainer
+         * @type String
+         * @writeOnce
+         */
+        tagContainer: {
+            setter: '_setTagContainer',
+            value: '<div class="' + CSS_DIAGRAM_BUILDER_CONNECTOR_TAG_CONTAINER + '"></div>',
+            writeOnce: true
+        },
+
+        /**
          * The connector node name.
          *
          * @attribute nodeName
@@ -967,7 +999,7 @@ A.Connector = A.Base.create('line', A.Base, [], {
          */
         nodeTag: {
             setter: '_setNodeTag',
-            value: '<div class="' + CSS_DIAGRAM_BUILDER_CONNECTOR_TAG + '"></div>',
+            value: '<span class="' + CSS_DIAGRAM_BUILDER_CONNECTOR_TAG + '"></span>',
             writeOnce: true
         },
 
