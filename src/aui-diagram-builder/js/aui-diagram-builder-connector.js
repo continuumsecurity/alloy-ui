@@ -734,7 +734,7 @@ A.Connector = A.Base.create('line', A.Base, [], {
      */
     _uiSetTags: function(val) {
         var instance = this;
-        instance.get('nodeTag').html(A.Escape.html(val.concat(" | ")));
+        instance.get('nodeTag').html(A.Escape.html(val.join(" | ")));
     },
 
     /**
