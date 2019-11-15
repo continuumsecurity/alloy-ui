@@ -131,7 +131,7 @@ A.PolygonUtil = {
  * @constructor
  */
 A.Connector = A.Base.create('line', A.Base, [], {
-    SERIALIZABLE_ATTRS: ['color', 'lazyDraw', 'name', 'tag', 'shapeSelected', 'shapeHover', /*SHAPE,*/ 'p1', 'p2'],
+    SERIALIZABLE_ATTRS: ['color', 'lazyDraw', 'name', 'tags', 'shapeSelected', 'shapeHover', /*SHAPE,*/ 'p1', 'p2'],
 
     shape: null,
     shapeArrow: null,
@@ -165,7 +165,7 @@ A.Connector = A.Base.create('line', A.Base, [], {
         instance._uiSetVisible(instance.get('visible'));
         instance._uiSetName(instance.get('name'));
         instance._uiSetSelected(instance.get('selected'), !lazyDraw);
-        instance._uiSetTag(instance.get('tag'));
+        instance._uiSetTags(instance.get('tags'));
         instance._uiSetShowTag(instance.get('showTag'));
     },
 
@@ -726,13 +726,13 @@ A.Connector = A.Base.create('line', A.Base, [], {
     },
 
     /**
-     * Sets the `Tag` attribute in the UI.
+     * Sets the `Tags` attribute in the UI.
      *
-     * @method _uiSetTag
+     * @method _uiSetTags
      * @param val
      * @protected
      */
-    _uiSetTag: function(val) {
+    _uiSetTags: function(val) {
         var instance = this;
 
         instance.get('nodeTag').html(A.Escape.html(val));
@@ -933,16 +933,14 @@ A.Connector = A.Base.create('line', A.Base, [], {
         },
 
         /**
-         * The tag of the connector.
+         * The tags of the connector.
          *
-         * @attribute tag
-         * @type String
+         * @attribute tags
+         * @type Array
          */
-        tag: {
-            valueFn: function () {
-                return (++A.Env._uidx);
-            },
-            validator: isString
+        tags: {
+            value: [],
+            validator: isArray
         },
 
         /**
@@ -967,7 +965,7 @@ A.Connector = A.Base.create('line', A.Base, [], {
          */
         nodeTag: {
             setter: '_setNodeTag',
-            value: '<span class="' + CSS_DIAGRAM_BUILDER_CONNECTOR_TAG + '"></span>',
+            value: '<div class="' + CSS_DIAGRAM_BUILDER_CONNECTOR_TAG + '"></div>',
             writeOnce: true
         },
 
