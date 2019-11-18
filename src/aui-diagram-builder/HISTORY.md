@@ -4,6 +4,9 @@
 
 ## @VERSION@
 
+## [4.2.0](https://github.com/continuumsecurity/alloy-ui/releases/tag/4.2.0)
+* IR-4092 Added tags on nodes to display different value as the name
+
 ## [4.1.1](https://github.com/continuumsecurity/alloy-ui/releases/tag/4.1.1)
 
 * IR-2876 Simplify to use only the minifies on the builds

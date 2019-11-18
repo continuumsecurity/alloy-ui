@@ -1270,7 +1270,7 @@ var DiagramBuilder = A.Component.create({
                             p1: xy,
                             p2: xy,
                             shapeHover: null,
-                            showName: false
+                            showTag: false
                         },
                         val
                     )
